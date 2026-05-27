@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 26
-  productGUID: 8d72808f6ec8c1e4999a643c75dbcfc3
+  productGUID: 690b758a675604944a99d75a1b7356fa
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: My project
+  productName: ebac-jogo-de-aventura-3D
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -774,14 +774,14 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: My project
+  metroPackageName: ebac-jogo-de-aventura-3D
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: My project
+  metroApplicationDescription: ebac-jogo-de-aventura-3D
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0
@@ -851,10 +851,10 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 3e6f1192-6115-47eb-8a68-e3ec61cf0646
+  cloudProjectId: c5f07112-994c-40b0-80fe-8d792ec2c7ae
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: ebac-jogo-de-aventura-3D
+  projectName: ebac-jogo-de-aventura-3D 2026-05-27_08-48-25
   organizationId: unity_f6c40d780a6a79cd7348
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
