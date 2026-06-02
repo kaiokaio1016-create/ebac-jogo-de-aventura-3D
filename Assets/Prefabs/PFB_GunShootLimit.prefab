@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 6851199773048667954}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.072}
+  m_LocalPosition: {x: 0, y: 0, z: 0.714}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -129,9 +129,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabProjectile: {fileID: 1927407820961987069, guid: 9ed4d640ac271de44b300fe560c66079, type: 3}
-  positionToShoot: {fileID: 5104546467899645056, guid: d2d5f049318721b45bb2a2946421e3e1, type: 3}
+  positionToShoot: {fileID: 511321246509255606, guid: e591028a28e57c545b8a0ae19df57248, type: 3}
   timeBetweenShoot: 0.3
-  uIGunUpdaters:
-  - {fileID: 0}
+  uiGunUpdaters: []
   maxShoot: 5
   timeToRecharge: 1

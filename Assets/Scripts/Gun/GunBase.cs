@@ -1,15 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class GunBase : MonoBehaviour
 {
     public ProjectileBase prefabProjectile;
-
     public Transform positionToShoot;
     public float timeBetweenShoot = .3f;
-
     private Coroutine _currentCoroutine;
+
+    // Marcado como virtual para permitir override nos filhos
+    public virtual void Shoot()
+    {
+        Instantiate(prefabProjectile, positionToShoot.position, positionToShoot.rotation);
+    }
 
     protected virtual IEnumerator ShootCoroutine()
     {
@@ -20,13 +23,6 @@ public class GunBase : MonoBehaviour
         }
     }
 
-    public virtual void Shoot()
-    {
-        var projectile = Instantiate(prefabProjectile);
-        projectile.transform.position = positionToShoot.position;
-        projectile.transform.rotation = positionToShoot.rotation;
-    }
-
     public void StartShoot()
     {
         StopShoot();
@@ -35,7 +31,6 @@ public class GunBase : MonoBehaviour
 
     public void StopShoot()
     {
-        if (_currentCoroutine != null)
-            StopCoroutine(_currentCoroutine);
+        if (_currentCoroutine != null) StopCoroutine(_currentCoroutine);
     }
 }

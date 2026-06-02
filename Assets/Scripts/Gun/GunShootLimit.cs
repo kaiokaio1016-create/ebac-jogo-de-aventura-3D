@@ -1,19 +1,20 @@
-using System.Linq;
+ï»¿using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GunShootLimit : GunBase
 {
-    public List<UIGunUpdater> uIGunUpdaters;
+    [Header("UI Settings (Auto Managed)")]
+    public List<MonoBehaviour> uiGunUpdaters;
 
+    [Header("Base Settings")]
     public float maxShoot = 5f;
     public float timeToRecharge = 1f;
 
     private float _currentShoots;
     private bool _recharging = false;
 
-    
     protected virtual void Start()
     {
         GetAllUIs();
@@ -28,15 +29,16 @@ public class GunShootLimit : GunBase
         {
             if (_currentShoots < maxShoot)
             {
+                // Chama o Shoot() herdado da GunBase, que agora estÃ¡ corrigido!
                 Shoot();
                 _currentShoots++;
                 CheckRecharge();
                 UpdateUI();
+
                 yield return new WaitForSeconds(timeBetweenShoot);
             }
             else
             {
-                // Proteção para o loop não travar a Unity caso a arma precise recarregar
                 yield return null;
             }
         }
@@ -63,10 +65,16 @@ public class GunShootLimit : GunBase
         while (time < timeToRecharge)
         {
             time += Time.deltaTime;
+            float progress = time / timeToRecharge;
 
-           
-            uIGunUpdaters.ForEach(i => i.UpdateValue(time / timeToRecharge));
-
+            foreach (var ui in uiGunUpdaters)
+            {
+                if (ui != null)
+                {
+                    var method = ui.GetType().GetMethod("UpdateValue", new System.Type[] { typeof(float) });
+                    if (method != null) method.Invoke(ui, new object[] { progress });
+                }
+            }
             yield return new WaitForEndOfFrame();
         }
 
@@ -77,13 +85,20 @@ public class GunShootLimit : GunBase
 
     private void UpdateUI()
     {
-        
-        uIGunUpdaters.ForEach(i => i.UpdateValue(maxShoot, _currentShoots));
+        object[] parameters = new object[] { maxShoot, _currentShoots };
+        foreach (var ui in uiGunUpdaters)
+        {
+            if (ui != null)
+            {
+                var method = ui.GetType().GetMethod("UpdateValue", new System.Type[] { typeof(float), typeof(float) });
+                if (method != null) method.Invoke(ui, parameters);
+            }
+        }
     }
 
     private void GetAllUIs()
     {
-        
-        uIGunUpdaters = Object.FindObjectsByType<UIGunUpdater>(FindObjectsSortMode.None).ToList();
+        uiGunUpdaters = Object.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
+            .Where(x => x.GetType().GetMethods().Any(m => m.Name == "UpdateValue")).ToList();
     }
 }

@@ -19,12 +19,14 @@ public class GunShootAngle : GunShootLimit
                 mult++;
             }
 
-            var projectile = Instantiate(prefabProjectile, positionToShoot);
+            // 1. Instancia o projétil na posição correta e já herdando a rotação do cano (positionToShoot)
+            var projectile = Instantiate(prefabProjectile, positionToShoot.position, positionToShoot.rotation);
 
-            projectile.transform.localPosition = Vector3.zero;
-            projectile.transform.localEulerAngles = Vector3.zero + Vector3.up * (i % 2 == 0 ? angle : -angle) * mult;
+            // 2. Aplica o espalhamento angular baseado na rotação atualizada do cano
+            projectile.transform.Rotate(Vector3.up * (i % 2 == 0 ? angle : -angle) * mult);
 
-            projectile.speed = speed; // <-- Agora o C# reconhece de onde vem essa 'speed'
+            // 3. Configura a velocidade
+            projectile.speed = speed;
             projectile.transform.parent = null;
         }
     }

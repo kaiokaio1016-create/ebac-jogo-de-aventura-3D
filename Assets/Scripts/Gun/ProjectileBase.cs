@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class ProjectileBase : MonoBehaviour
 {
-    public float timetToDestroy = 2f;
-
+    public float timeToDestroy = 2f;
     public int damageAmount = 1;
     public float speed = 50f;
 
     private void Awake()
     {
-        Destroy(gameObject, timetToDestroy);
+        Destroy(gameObject, timeToDestroy);
     }
 
     private void Update()
     {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        //  SOLUÇÃO DEFINITIVA: Anda na direção para onde a bala está apontada
+        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-
+        // Lógica de colisão
     }
 }

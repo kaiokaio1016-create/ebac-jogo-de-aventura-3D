@@ -5,39 +5,86 @@ using UnityEngine.InputSystem;
 
 public class PlayerAbilityShoot : PlayerAbilityBase
 {
-    public List<UIGunUpdater> uIGunUpdaters;
-
-    public GunBase gunBase;
+    [Header("Weapon Settings")]
+    public List<GunBase> gunPrefabs;
     public Transform gunPosition;
 
     private GunBase _currentGun;
+    private int _currentWeaponIndex = 0;
 
     protected override void Init()
     {
         base.Init();
 
-        CreateGun();
+        if (inputs != null)
+        {
+            inputs.Gameplay.Enable();
 
-        inputs.Gameplay.Shoot.performed += ctx => StartShoot();
-        inputs.Gameplay.Shoot.canceled += ctx => CancelShoot();
+            inputs.Gameplay.Shoot.performed += ctx => StartShoot();
+            inputs.Gameplay.Shoot.canceled += ctx => CancelShoot();
+
+            inputs.Gameplay.EquipWeapon1.performed += ctx => SwitchWeapon(0);
+            inputs.Gameplay.EquipWeapon2.performed += ctx => SwitchWeapon(1);
+
+            Debug.Log("Inputs do Gameplay ativados e vinculados com sucesso!");
+        }
+        else
+        {
+            Debug.LogError("O objeto 'inputs' nativo está nulo!");
+        }
+
+        if (gunPrefabs != null && gunPrefabs.Count > 0)
+        {
+            CreateGun(gunPrefabs[_currentWeaponIndex]);
+        }
     }
 
-    private void CreateGun()
+    protected void OnDisable()
     {
-        _currentGun = Instantiate(gunBase, gunPosition);
+        if (inputs != null)
+        {
+            inputs.Gameplay.Shoot.performed -= ctx => StartShoot();
+            inputs.Gameplay.Shoot.canceled -= ctx => CancelShoot();
 
-        _currentGun.transform.localPosition = _currentGun.transform.localEulerAngles = Vector3.zero;
+            inputs.Gameplay.EquipWeapon1.performed -= ctx => SwitchWeapon(0);
+            inputs.Gameplay.EquipWeapon2.performed -= ctx => SwitchWeapon(1);
+
+            inputs.Gameplay.Disable();
+        }
+    }
+
+    private void CreateGun(GunBase prefab)
+    {
+        if (prefab == null || gunPosition == null) return;
+
+        if (_currentGun != null)
+        {
+            _currentGun.StopShoot();
+            Destroy(_currentGun.gameObject);
+        }
+
+        _currentGun = Instantiate(prefab, gunPosition);
+        _currentGun.transform.localPosition = Vector3.zero;
+        _currentGun.transform.localRotation = Quaternion.identity;
+    }
+
+    private void SwitchWeapon(int index)
+    {
+        if (gunPrefabs == null || index < 0 || index >= gunPrefabs.Count) return;
+        if (index == _currentWeaponIndex && _currentGun != null) return;
+
+        _currentWeaponIndex = index;
+        CreateGun(gunPrefabs[_currentWeaponIndex]);
+        Debug.Log("Arma trocada para o índice: " + index);
     }
 
     private void StartShoot()
     {
-        _currentGun.StartShoot();
-        Debug.Log("Start Shoot");
+        if (_currentGun != null) _currentGun.StartShoot();
     }
 
     private void CancelShoot()
     {
-        Debug.Log("Cancel Shoot");
-        _currentGun.StopShoot();
+        if (_currentGun != null) _currentGun.StopShoot();
     }
 }
