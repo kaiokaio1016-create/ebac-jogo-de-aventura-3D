@@ -131,6 +131,7 @@ MonoBehaviour:
   prefabProjectile: {fileID: 1927407820961987069, guid: 9ed4d640ac271de44b300fe560c66079, type: 3}
   positionToShoot: {fileID: 511321246509255606}
   timeBetweenShoot: 0.3
+  uiGunUpdaters: []
   maxShoot: 5
   timeToRecharge: 1
   amountPerShoot: 4
