@@ -1,31 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+
 public class FlashColor : MonoBehaviour
 {
-    public MeshRenderer meshRenderer;
+   public MeshRenderer meshRenderer;
+   public SkinnedMeshRenderer skinnedMeshRenderer;
 
-    [Header("Setup")]
-    public Color color = Color.red;
-    public float duration = .1f;
+   [Header("Setup")]
+   public Color color = Color.red;
+   public float duration = .1f;
 
-    private Color defaultColor;
-    private Tween _currTween;
+   private Tween _currentTween;
 
-    private void Start()
+   private void OnValidate()
+   {
+      if(meshRenderer == null) meshRenderer = GetComponent<MeshRenderer>();
+      if(skinnedMeshRenderer == null) skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
+   }
+
+   //[NaughtyAttributes.Button]
+
+   public void Flash()
+   {
+    if(meshRenderer != null && !_currentTween.IsActive()) 
     {
-        // Ensure you have a material with the _EmissionColor property
-        defaultColor = meshRenderer.material.GetColor("_EmissionColor");
+      _currentTween = meshRenderer.material.DOColor(color,"_EmissionColor", duration).SetLoops(2,LoopType.Yoyo);
     }
-
-    [NaughtyAttributes.Button]
-    public void Flash()
+     if(skinnedMeshRenderer != null && !_currentTween.IsActive()) 
     {
-        // Check if the tween is null or not active before starting a new one
-        if (_currTween == null || !_currTween.IsActive())
-        {
-            _currTween = meshRenderer.material.DOColor(color, "_EmissionColor", duration)
-                .SetLoops(2, LoopType.Yoyo);
-        }
+      _currentTween = skinnedMeshRenderer.material.DOColor(color,"_EmissionColor", duration).SetLoops(2,LoopType.Yoyo);
     }
+   }
 }

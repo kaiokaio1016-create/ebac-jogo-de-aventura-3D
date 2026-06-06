@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class ProjectileBase : MonoBehaviour
 {
-    public float timeToDestroy = 2f;
+    public float timeToDestroy = 1f;
     public int damageAmount = 1;
     public float speed = 50f;
-    public float damage = 10f;
+
+    public List<string> tagsToHit;
 
     private void Awake()
     {
@@ -16,37 +17,35 @@ public class ProjectileBase : MonoBehaviour
 
     private void Update()
     {
-        //  SOLUÇÃO DEFINITIVA: Anda na direção para onde a bala está apontada
-        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+       transform.Translate(Vector3.forward * speed * Time.deltaTime );
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        // 1. Verifica se a colisão está acontecendo
-        Debug.Log("Colidi com: " + other.gameObject.name);
 
-        // 2. Tenta encontrar a interface
-        var damageable = other.GetComponent<IDamageable>();
-
-        if (damageable != null)
+      foreach (var t in tagsToHit)
+      {
+        if(other.transform.tag == t)
         {
-            Debug.Log("Sucesso! Componente IDamageable encontrado.");
-            damageable.OnDamage(this.damage);
-            Destroy(gameObject);
-        }
-        else
-        {
-            // 3. Se cair aqui, o script EnemyBase não está no objeto que o projétil atingiu
-            Debug.LogWarning("O objeto atingido NÃO possui o script com IDamageable!");
+         var damageable = other.transform.GetComponent<IDamageable>();
 
-            // DICA: Tente buscar no pai do objeto, caso o collider esteja em um filho
-            damageable = other.GetComponentInParent<IDamageable>();
-            if (damageable != null)
-            {
-                Debug.Log("Encontrei o IDamageable no PAI do objeto!");
-                damageable.OnDamage(this.damage);
-                Destroy(gameObject);
-            }
+         if(damageable != null) 
+         {
+            Vector3 dir = other.transform.position - transform.position;
+            dir = -dir.normalized;
+            dir.y = 0;
+
+            damageable.Damage(damageAmount, dir);
+         }
+
+          break;
+
         }
+      }
+         //Ignora colisoes com outros projeteis
+         if(!other.gameObject.CompareTag("Projectile")) 
+         {   
+          Destroy(gameObject);
+         }
     }
 }

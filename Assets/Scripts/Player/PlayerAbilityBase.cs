@@ -5,20 +5,19 @@ using UnityEngine.InputSystem;
 
 public class PlayerAbilityBase : MonoBehaviour
 {
-    protected Player player;
-
+    protected Player3D player;
     protected Inputs inputs;
 
-    private void OnValidate()
+    private void OnValidate() 
     {
-        if (player == null) player = GetComponent<Player>();
+        if(player == null) player = GetComponent<Player3D>(); 
     }
 
-    private void Start()
+    private void Start() 
     {
         inputs = new Inputs();
         inputs.Enable();
-
+        
         Init();
         OnValidate();
         RegisterListeners();
@@ -26,21 +25,23 @@ public class PlayerAbilityBase : MonoBehaviour
 
     private void OnEnable()
     {
-        if (inputs != null)
-            inputs.Enable();
+      if(inputs != null) 
+      {
+        inputs.Enable();
+      }
     }
 
-    private void OnDisable()
-    {
-        inputs.Disable();
-    }
+   private void OnDisable() 
+   {
+     inputs.Disable();
+   }
 
-    private void OnDestroy()
+    private void OnDestroy() 
     {
         RemoveListeners();
     }
 
-    protected virtual void Init() { }
-    protected virtual void RegisterListeners() { }
-    protected virtual void RemoveListeners() { }
+    protected virtual void Init(){}
+    protected virtual void RegisterListeners(){}
+    protected virtual void RemoveListeners(){}
 }
