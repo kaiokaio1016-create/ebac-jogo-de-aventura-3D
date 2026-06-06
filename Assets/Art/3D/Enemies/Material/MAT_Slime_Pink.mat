@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   version: 10
+=======
+  version: 9
+>>>>>>> 59f0b8071e16095f0121fb9d069a9658cc026c1d
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -25,8 +29,12 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
+<<<<<<< HEAD
   m_InvalidKeywords:
   - _EMISSION
+=======
+  m_InvalidKeywords: []
+>>>>>>> 59f0b8071e16095f0121fb9d069a9658cc026c1d
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
