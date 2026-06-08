@@ -11,7 +11,7 @@ public class GunBase : MonoBehaviour
     public float speed = 50f;
     
     
-     private void Start()
+    private void Start()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
     }
@@ -33,7 +33,7 @@ public class GunBase : MonoBehaviour
         projectile.transform.rotation = positionShoot.rotation;
         projectile.speed = speed;
 
-        //ShakeCamera.Instance.ShakeCam();
+        ShakeCamera.Instance.ShakeCam();
     }
 
     public void StartShoot()
