@@ -60,9 +60,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -100,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19de6b3b218a3c84e9b205f4438fab55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabProjectile: {fileID: 7399916038340455827, guid: 597e8bb6574a4f849bead6af2a929c75, type: 3}
+  prefabProjectile: {fileID: 7399916038340455827, guid: c5dcb77d5c774cd4d8bca11a0b41cab7, type: 3}
   positionShoot: {fileID: 912939677241045830}
   timeBetweenShoot: 1
   speed: 50

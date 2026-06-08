@@ -22,30 +22,34 @@ public class ProjectileBase : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-
-      foreach (var t in tagsToHit)
-      {
-        if(other.transform.tag == t)
+        foreach (var t in tagsToHit)
         {
-         var damageable = other.transform.GetComponent<IDamageable>();
+            if (other.transform.tag == t)
+            {
+                var damageable = other.transform.GetComponent<IDamageable>();
 
-         if(damageable != null) 
-         {
-            Vector3 dir = other.transform.position - transform.position;
-            dir = -dir.normalized;
-            dir.y = 0;
+                if (damageable != null)
+                {
+                    // Calcula a direção do impacto (empurrando o player)
+                    Vector3 dir = other.transform.position - transform.position;
+                    dir = dir.normalized;
+                    dir.y = 0;
 
-            damageable.Damage(damageAmount, dir);
-         }
+                    // Aplica o dano usando o nome correto da variável: damageAmount
+                    damageable.Damage(damageAmount, dir);
 
-          break;
-
+                    // Destrói o projétil imediatamente após causar dano
+                    Destroy(gameObject);
+                    break;
+                }
+            }
         }
-      }
-         //Ignora colisoes com outros projeteis
-         if(!other.gameObject.CompareTag("Projectile")) 
-         {   
-          Destroy(gameObject);
-         }
+
+        // Se bater em qualquer outra coisa (cenário/paredes) que não seja outro projétil, se destrói
+        if (!other.gameObject.CompareTag("Projectile"))
+        {
+            Destroy(gameObject);
+        }
     }
+
 }
