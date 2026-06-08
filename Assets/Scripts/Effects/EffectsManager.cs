@@ -1,17 +1,16 @@
-using UnityEngine;
+﻿using System.Collections.Generic;
 using System.Collections;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
-using Ebac.Singleton;
+using UnityEngine;
+// Removemos o 'using UnityEngine.Rendering;' puro para evitar o conflito do ColorParameter
+using UnityEngine.Rendering.PostProcessing;
+using Ebac.Singleton; // De volta para o Player3D conseguir usar o .Instance
 
-public class EffectsManager : Singleton<EffectsManager>
+public class EffectsManager : Singleton<EffectsManager> // De volta ao Singleton
 {
-    public Volume volume;
-    private Vignette vignette;
-    public Color defaltColor = Color.black;
+    public PostProcessVolume processVolume;
+    [SerializeField] private Vignette _vignette;
+
     public float duration = 1f;
-
-
 
     [NaughtyAttributes.Button]
     public void ChangeVignette()
@@ -21,30 +20,33 @@ public class EffectsManager : Singleton<EffectsManager>
 
     IEnumerator FlashColorVignette()
     {
-        // Ensure Vignette exists in the Volume
-        if (!volume.profile.TryGet(out vignette))
+        Vignette tmp;
+
+        if (processVolume.profile.TryGetSettings<Vignette>(out tmp))
         {
-            //Debug.LogError("Vignette effect not found in Volume Profile!");
-            yield break;
+            _vignette = tmp;
         }
+
+        // Agora o Unity sabe 100% que este ColorParameter é o do PostProcessing
+        ColorParameter c = new ColorParameter();
 
         float time = 0;
         while (time < duration)
         {
-            vignette.color.value = Color.Lerp(defaltColor, Color.red, time / duration);
+            c.value = Color.Lerp(Color.black, Color.red, time / duration);
             time += Time.deltaTime;
-            yield return null; // More optimized than WaitForEndOfFrame()
+            _vignette.color.Override(c);
+            yield return new WaitForEndOfFrame();
         }
 
         time = 0;
         while (time < duration)
         {
-            vignette.color.value = Color.Lerp(Color.red, defaltColor, time / duration);
+            c.value = Color.Lerp(Color.red, Color.black, time / duration);
             time += Time.deltaTime;
-            yield return null;
+            _vignette.color.Override(c);
+            yield return new WaitForEndOfFrame();
         }
-
-        // Ensure final color is fully black at the end
-        vignette.color.value = defaltColor;
     }
 }
+
