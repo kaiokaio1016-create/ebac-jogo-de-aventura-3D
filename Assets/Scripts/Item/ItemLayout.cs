@@ -26,9 +26,11 @@ namespace Items
 
     private void Update()
     {
-        uiValue.text = _currentSetup.soInt.value.ToString();
+     if (_currentSetup == null || _currentSetup.soInt == null || uiValue == null) return;
+
+     uiValue.text = _currentSetup.soInt.value.ToString();
     }
-   
+
  }
 
 }
