@@ -207,7 +207,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6a7b2e48331c2c741aa3780414f381bb, type: 2}
+  - {fileID: 2100000, guid: ef3831e904619c44caa2a4966244ba51, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -298,11 +298,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToDestroy: 1
-  damageAmount: 1
+  damageAmount: 5
   speed: 50
   tagsToHit:
   - Enemy
-  - Player
 --- !u!54 &429882648857264096
 Rigidbody:
   m_ObjectHideFlags: 0

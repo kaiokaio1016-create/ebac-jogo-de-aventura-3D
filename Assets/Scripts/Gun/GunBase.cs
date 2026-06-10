@@ -28,12 +28,20 @@ public class GunBase : MonoBehaviour
     }
     public virtual void Shoot()
     {
-        var projectile = Instantiate(prefabProjectile); 
+        var projectile = Instantiate(prefabProjectile);
         projectile.transform.position = positionShoot.position;
         projectile.transform.rotation = positionShoot.rotation;
         projectile.speed = speed;
 
-        ShakeCamera.Instance.ShakeCam();
+        // Proteção para o tiro funcionar mesmo se a câmera falhar
+        if (ShakeCamera.Instance != null)
+        {
+            ShakeCamera.Instance.ShakeCam();
+        }
+        else
+        {
+            Debug.LogWarning("ShakeCamera.Instance está nulo! Verifique se o script está em um GameObject ativo na cena.");
+        }
     }
 
     public void StartShoot()

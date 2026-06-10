@@ -1,5 +1,9 @@
 sceneSetups:
-- path: Assets/Scenes/SCN_Art_3D 1.unity
+- path: Assets/Scenes/SCN_Art_3D 2.unity
   isLoaded: 1
   isActive: 1
+  isSubScene: 0
+- path: Assets/Scenes/SCN_Art_3D 1.unity
+  isLoaded: 1
+  isActive: 0
   isSubScene: 0
