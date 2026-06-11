@@ -29,6 +29,7 @@ public class Player3D : Singleton<Player3D>//, IDamageable
     public HealthBase healthBase;
     public UIFillUpdater uIGunUpdater;
     private bool _alive = true;
+    private bool _jumping = false;
 
     [Space]
     [SerializeField] private ClothChange clothChange;
@@ -91,16 +92,28 @@ public class Player3D : Singleton<Player3D>//, IDamageable
         transform.Rotate(0, Input.GetAxis("Horizontal") * turnSpeed * Time.deltaTime, 0); 
                    
         var inputAxisVertical = Input.GetAxis("Vertical");        
-        var speedVector = transform.forward * inputAxisVertical * speed; 
+        var speedVector = transform.forward * inputAxisVertical * speed;
 
-        if(characterController.isGrounded)        
-        {            
-            vSpeed = 0;            
-            if(Input.GetKeyDown(jumpKeyCode))            
-            {                
-                vSpeed = jumpSpeed;            
-            }        
-        }     
+        if (characterController.isGrounded)
+        {
+            if (_jumping)
+            {
+                _jumping = false;
+                animator.SetTrigger("Land");
+            }
+
+            vSpeed = 0;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                vSpeed = jumpSpeed;
+
+                if (!_jumping)
+                {
+                    _jumping = true;
+                    animator.SetTrigger("Jump");
+                }
+            }
+        }
 
         vSpeed  -= gravity * Time.deltaTime;        
         speedVector.y = vSpeed;
