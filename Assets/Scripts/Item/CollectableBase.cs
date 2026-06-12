@@ -6,6 +6,7 @@ namespace Items
 {
     public class CollectableBase : MonoBehaviour
     {
+        public SFXType sfxType;
         public ItemType itemType;
 
         [Header("Sounds & Particles")]
@@ -27,15 +28,20 @@ namespace Items
             OnCollect();
         }
 
+        private void PlaySFX()
+        {
+            SFXPool.Instance.Play(sfxType);
+        }
+
         protected virtual void OnCollect()
         {
-            // Toca a partícula se ela existir
+            PlaySFX();
             if (particleSystem != null) particleSystem.Play();
 
-            // Toca o som se ele existir
+            
             if (audioSource != null) audioSource.Play();
 
-            // Verifica de forma segura se o ItemManager existe antes de tentar adicionar o item
+            
             if (ItemManager.Instance != null)
             {
                 ItemManager.Instance.AddByType(itemType);

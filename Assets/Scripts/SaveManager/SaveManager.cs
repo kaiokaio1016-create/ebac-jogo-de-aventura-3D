@@ -12,7 +12,7 @@ public class SaveManager : Singleton<SaveManager>
 
     public int lastLevel;
 
-    public Action<SaveSetup> FileLoaded;
+    public Action<SaveSetup> FileLoaded = delegate { };
 
     public SaveSetup Setup
     {
@@ -87,7 +87,7 @@ public class SaveManager : Singleton<SaveManager>
             Save();
         }
 
-        FileLoaded.Invoke(_saveSetup);
+        FileLoaded?.Invoke(_saveSetup); 
     }
 
     [NaughtyAttributes.Button]
